@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Code2, Menu, X, ArrowUpRight } from "lucide-react";
+import { ToggleTheme } from "../theme-toggler";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,6 +62,7 @@ export default function Navbar() {
                 <ArrowUpRight className="size-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               </Button>
             </Link>
+            <ToggleTheme />
           </div>
 
           {/* Mobile Menu Button */}
@@ -113,6 +115,7 @@ export default function Navbar() {
                 Submit Project
               </Button>
             </Link>
+            <ToggleTheme />
           </div>
         </div>
       </div>
