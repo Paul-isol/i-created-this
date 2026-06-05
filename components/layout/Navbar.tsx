@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Code2, Menu, X, ArrowUpRight, User, LogOut, ChevronDown } from "lucide-react";
+import { Code2, Menu, X, ArrowUpRight, User, LogOut, ChevronDown, Globe2Icon } from "lucide-react";
 import { ToggleTheme } from "../theme-toggler";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
@@ -111,11 +111,22 @@ export default function Navbar() {
                       <div className="my-1 border-t border-border" />
                       
                       <Link
-                        href="/products"
+                        href="/profile"
                         onClick={() => setShowDropdown(false)}
                         className="flex w-full items-center gap-2 rounded-sm px-3 py-2 text-xs text-foreground hover:bg-muted transition-colors duration-200"
                       >
                         <User className="size-3.5 text-muted-foreground" />
+                        Profile
+                      </Link>
+
+                      <div className="my-1 border-t border-border" />
+                      
+                      <Link
+                        href="/products"
+                        onClick={() => setShowDropdown(false)}
+                        className="flex w-full items-center gap-2 rounded-sm px-3 py-2 text-xs text-foreground hover:bg-muted transition-colors duration-200"
+                      >
+                        <Globe2Icon className="size-3.5 text-muted-foreground" />
                         Explore Products
                       </Link>
 
@@ -214,9 +225,15 @@ export default function Navbar() {
                     <span className="text-xs text-muted-foreground truncate mt-0.5">{user.email}</span>
                   </div>
                 </div>
-                <Link href="/products" onClick={() => setIsOpen(false)}>
+                <Link href="/profile" onClick={() => setIsOpen(false)}>
                   <Button variant="ghost" className="w-full justify-start gap-2 hover:text-primary transition-all duration-300">
                     <User className="size-3.5" />
+                    Profile
+                  </Button>
+                </Link>
+                <Link href="/products" onClick={() => setIsOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start gap-2 hover:text-primary transition-all duration-300">
+                    <Globe2Icon className="size-3.5" />
                     Explore Products
                   </Button>
                 </Link>

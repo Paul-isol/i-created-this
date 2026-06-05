@@ -45,6 +45,7 @@ export default function RegisterForm() {
         onSuccess: () => {
           setEmailLoading(false);
           toast.success("Profile created successfully!");
+          window.location.href = "/"
         },
         onError: (ctx) => {
           setEmailLoading(false);

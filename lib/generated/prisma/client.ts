@@ -66,3 +66,18 @@ export type Verification = Prisma.VerificationModel
  * 
  */
 export type Product = Prisma.ProductModel
+/**
+ * Model Organization
+ * 
+ */
+export type Organization = Prisma.OrganizationModel
+/**
+ * Model Member
+ * 
+ */
+export type Member = Prisma.MemberModel
+/**
+ * Model Invitation
+ * 
+ */
+export type Invitation = Prisma.InvitationModel

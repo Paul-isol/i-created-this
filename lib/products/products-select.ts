@@ -36,3 +36,13 @@ export async function getRecentlyLaunchedProducts() {
             product.createdAt && new Date(product.createdAt.toISOString()) >= oneWeekAgo
     )
 }
+
+export async function getUserProducts(userId: string) {
+    "use cache"
+    const userProducts = await db.product.findMany({
+        where: {
+            userId: userId
+        }
+    })
+    return userProducts
+}

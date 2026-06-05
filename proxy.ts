@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
-import { auth } from "./lib/auth";
 
 export async function proxy(request: NextRequest) {
     const sessionCookie = getSessionCookie(request);
@@ -25,5 +24,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/products", "/products/:path*", "/login", "/register"],
+    matcher: ["/products", "/products/:path*", "/login", "/register", "/profile"],
 };
