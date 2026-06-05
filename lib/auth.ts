@@ -2,6 +2,8 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import db from "./db";
 import { nextCookies } from "better-auth/next-js";
+import { organization } from "better-auth/plugins"
+
 // If your Prisma file is located elsewhere, you can change the path
 
 export const auth = betterAuth({
@@ -18,5 +20,5 @@ export const auth = betterAuth({
             prompt: "select_account"
         },
     },
-    plugins: [nextCookies()]
+    plugins: [nextCookies(), organization()]
 });

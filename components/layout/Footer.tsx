@@ -1,8 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import { Code2, Globe, Heart, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
 export default function Footer() {
+  const [year, setYear] = useState<number | string>("");
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
   const exploreLinks = [
     { name: "Showcase Hub", href: "/" },
     { name: "Explore Projects", href: "#" },
@@ -135,7 +143,7 @@ export default function Footer() {
         {/* Bottom Section */}
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} I Created This!. All rights
+            &copy; {year || "2026"} I Created This!. All rights
             reserved.
           </p>
           <div className="text-xs text-muted-foreground flex items-center gap-1.5">

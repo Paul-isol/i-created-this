@@ -1,0 +1,38 @@
+import { connection } from "next/server";
+import db from "../db";
+
+export async function getFeaturedProducts() {
+    "use cache"
+    const products = await db.product.findMany({
+        where: {
+            status: "approved"
+        },
+        orderBy: {
+            likes: "desc"
+        }
+    })
+
+    return products
+}
+
+export async function getAllProducts(){
+    const productsData = await db.product.findMany({
+        where: {status: "approved"},
+        orderBy: {
+            createdAt: "desc"
+        }
+    })
+    return productsData
+}
+
+export async function getRecentlyLaunchedProducts() {
+    await connection()
+    const productsData = await getFeaturedProducts()
+    const oneWeekAgo = new Date()
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+
+    return productsData.filter(
+        (product) =>
+            product.createdAt && new Date(product.createdAt.toISOString()) >= oneWeekAgo
+    )
+}

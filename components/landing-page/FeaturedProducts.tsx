@@ -1,50 +1,12 @@
+"use cache"
 import { ArrowRightCircleIcon } from "lucide-react";
 import { ProductCard } from "../products/ProductCard";
 import Link from "next/link";
+import { getFeaturedProducts } from "@/lib/products/products-select";
 
-export default function FeaturedProducts() {
-  const products = [
-    {
-      id: 1,
-      title: "DevFlow Developer Hub",
-      author: "@sarah_codes",
-      category: "Fullstack",
-      desc: "A high-performance developer index featuring AI search, custom markdown parsing, and collaborative notebooks.",
-      likes: "142",
-      views: "1.2k",
-      tags: ["Next.js 16", "Fullstack", "AI"],
-    },
-    {
-      id: 2,
-      title: "Tailwind V4 Sandbox",
-      author: "@alex_dev",
-      category: "Frontend Tool",
-      desc: "An advanced stylesheet compiler playground to test utility variables and compile inline CSS modules instantly.",
-      likes: "98",
-      views: "840",
-      tags: ["PostCSS", "Frontend", "CSS"],
-    },
-    {
-      id: 3,
-      title: "Antigravity Workspace",
-      author: "@agent_deep",
-      category: "Developer Tool",
-      desc: "A browser-based workspace editor with integrated task runners, system log diagnostics, and state management trees.",
-      likes: "256",
-      views: "3.1k",
-      tags: ["TypeScript", "Developer Tool", "IDE"],
-    },
-    {
-      id: 4,
-      title: "Agentic AI Coding",
-      author: "@AI_Insider",
-      category: "AI Agent",
-      desc: "An advanced agent-based coding system that writes, tests, and deploys code autonomously using state-of-the-art AI models.",
-      likes: "123",
-      views: "2k",
-      tags: ["AI", "Agent", "Coding"],
-    },
-  ];
+export default async function FeaturedProducts() {
+  const products = await getFeaturedProducts()
+  
   return (
     <div className="relative w-full max-w-5xl mx-auto border border-border bg-card p-3 sm:p-5 shadow-2xl transition-all duration-500 hover:border-primary/30">
       {/* Mock Header Console */}

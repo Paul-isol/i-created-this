@@ -2,6 +2,8 @@ import { Badge } from "../ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
 import FeaturedProducts from "./FeaturedProducts";
+import { Suspense } from "react";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -41,24 +43,30 @@ export default function Hero() {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16 sm:mb-20">
-          <Button
-            size="lg"
-            className="group/btn gap-2 font-heading transition-all duration-300 active:translate-y-px"
-          >
-            Share Your Project
-            <ArrowUpRight className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="group/btn gap-2 font-heading border-border hover:border-foreground transition-all duration-300 active:translate-y-px"
-          >
-            Explore Showcase
-          </Button>
+          <Link href={"/submit"}>
+            <Button
+              size="lg"
+              className="group/btn gap-2 font-heading transition-all duration-300 active:translate-y-px"
+            >
+              Share Your Project
+              <ArrowUpRight className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+            </Button>
+          </Link>
+          <Link href={"/products"}>
+            <Button
+              size="lg"
+              variant="outline"
+              className="group/btn gap-2 font-heading border-border hover:border-foreground transition-all duration-300 active:translate-y-px"
+            >
+              Explore Showcase
+            </Button>
+          </Link>
         </div>
 
         {/* Interactive Dashboard Mockup */}
-        <FeaturedProducts />
+        <Suspense fallback={<div>Loading...</div>}>
+          <FeaturedProducts />
+        </Suspense>
       </div>
     </div>
   );
