@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Code2, Menu, X, ArrowUpRight, User, LogOut, ChevronDown, Globe2Icon } from "lucide-react";
@@ -15,6 +15,19 @@ export default function Navbar() {
 
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("login") === "success") {
+        toast.success("Successfully logged in!");
+        urlParams.delete("login");
+        const newSearch = urlParams.toString();
+        const newPath = window.location.pathname + (newSearch ? `?${newSearch}` : "");
+        window.history.replaceState({}, "", newPath);
+      }
+    }
+  }, []);
 
   const handleSignOut = async () => {
     await authClient.signOut({

@@ -1,5 +1,5 @@
 import { Product } from "@/lib/generated/prisma/client";
-import { Eye, Heart, Star } from "lucide-react";
+import { ArrowRight, Eye, Heart, Star } from "lucide-react";
 import ProductLikeButton from "./ProductLikeButton";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -82,12 +82,13 @@ export function ProductCard({ product, hasLiked = false }: { product: Product; h
             <div><Heart className="w-3 h-3" />{product.likes}</div>
           }>
 
-          <ProductLikeButton product={product} hasLiked={hasLiked} />
+            <ProductLikeButton product={product} hasLiked={hasLiked} />
           </Suspense>
         </div>
-        <span className="group-hover/card:translate-x-1 group-hover/card:text-primary transition-all duration-300">
-          View Specs →
-        </span>
+        <Link href={`/products/${product.slug}`}>
+          <span className="flex items-center gap-1 group-hover/card:translate-x-1 group-hover/card:text-primary transition-all duration-300">
+            View Specs <ArrowRight className="size-4" />
+          </span></Link>
       </div>
     </div>
   );

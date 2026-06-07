@@ -57,20 +57,22 @@ export default function RegisterForm() {
   };
 
   const handleGoogleRegister = async () => {
+    toast.loading("Connecting to Google OAuth...", { id: "register-toast" });
+
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/"
+      callbackURL: "/?login=success"
     }, {
       onRequest: () => {
         setGoogleLoading(true)
       },
       onSuccess: () => {
         setGoogleLoading(false)
-        toast.success("Profile registered via Google!", { id: "register-toast" })
+        toast.loading("Redirecting to Google...", { id: "register-toast" })
       },
       onError: (ctx) => {
         setGoogleLoading(false)
-        toast.error(ctx.error.message || "Authentication failed. Please verify your credentials.")
+        toast.error(ctx.error.message || "Authentication failed. Please verify your credentials.", { id: "register-toast" })
       }
     })
   };

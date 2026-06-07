@@ -57,18 +57,18 @@ export default function LoginForm() {
 
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/"
+      callbackURL: "/?login=success"
     }, {
       onRequest: () => {
         setGoogleLoading(true)
       },
       onSuccess: () => {
         setGoogleLoading(false)
-        toast.success("Google sign-in successful.", { id: "login-toast" })
+        toast.loading("Redirecting to Google...", { id: "login-toast" })
       },
       onError: (ctx) => {
         setGoogleLoading(false)
-        toast.error(ctx.error.message || "Authentication failed. Please verify your credentials.")
+        toast.error(ctx.error.message || "Authentication failed. Please verify your credentials.", { id: "login-toast" })
       }
     })
 
