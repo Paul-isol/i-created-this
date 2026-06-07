@@ -102,6 +102,17 @@ model Product {
   @@map("products")
 }
 
+model ProductLike {
+  id        Int      @id @default(autoincrement())
+  userId    String   @map("user_id")
+  productId Int      @map("product_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([userId, productId], map: "product_like_user_product_idx")
+  @@index([productId], map: "product_like_product_idx")
+  @@map("product_like")
+}
+
 model Organization {
   id          String       @id
   name        String

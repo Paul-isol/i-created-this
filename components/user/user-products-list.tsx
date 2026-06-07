@@ -7,7 +7,8 @@ import { PackageOpen, PlusCircle, LayoutGrid, CheckCircle2, AlertCircle } from "
 import Link from "next/link";
 import { Button } from "../ui/button";
 
-export default function UserProductsList({ products }: { products: Product[] }) {
+export default function UserProductsList({ products, likedProductIds = [] }: { products: Product[]; likedProductIds?: number[] }) {
+  const likedSet = new Set(likedProductIds);
   const [filter, setFilter] = useState<"all" | "approved" | "pending">("all");
 
   const filteredProducts = products.filter((product) => {
@@ -120,7 +121,7 @@ export default function UserProductsList({ products }: { products: Product[] }) 
                     )}
                   </div>
                   <Link href={`/products/${product.id}`} className="block">
-                    <ProductCard product={product} />
+                    <ProductCard product={product} hasLiked={likedSet.has(product.id)} />
                   </Link>
                 </div>
               ))}

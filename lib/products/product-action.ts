@@ -2,6 +2,7 @@
 
 import { auth } from "../auth";
 import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { productSchema } from "./product-validation";
 import db from "../db";
 import { z } from "zod";
@@ -85,6 +86,97 @@ export async function addProductAction(prevState: FormState, formData: FormData)
             errors: {},
             message: "Failed to add Product",
             fields
+        }
+    }
+}
+
+export async function likeProductAction(productId: number) {
+    try {
+        // check if the user is logged in
+        const session = await auth.api.getSession({
+            headers: await headers()
+        })
+        if (!session) {
+            return {
+                success: false,
+                message: "You must be logged in to like a product",
+            }
+        }
+
+        const userId = session.user.id;
+
+        // Check if user already liked this product
+        const existingLike = await db.productLike.findUnique({
+            where: {
+                userId_productId: { userId, productId }
+            }
+        })
+
+        if (existingLike) {
+            // Unlike: delete the like row and decrement the counter
+            await db.$transaction([
+                db.productLike.delete({
+                    where: { id: existingLike.id }
+                }),
+                db.product.update({
+                    where: { id: productId },
+                    data: { likes: { decrement: 1 } }
+                })
+            ])
+
+            revalidatePath("/")
+            return {
+                success: true,
+                liked: false,
+                message: "Product unliked"
+            }
+        } else {
+            // Like: create the like row and increment the counter
+            await db.$transaction([
+                db.productLike.create({
+                    data: { userId, productId }
+                }),
+                db.product.update({
+                    where: { id: productId },
+                    data: { likes: { increment: 1 } }
+                })
+            ])
+
+            revalidatePath("/")
+            return {
+                success: true,
+                liked: true,
+                message: "Product liked"
+            }
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: "Failed to update like",
+            error: error
+        }
+    }
+}
+export async function updateProductViews(productId: number) {
+    try {
+        await db.product.update({
+            where: { id: productId },
+            data: {
+                views: {
+                    increment: 1
+                }
+            }
+        })
+        return {
+            success: true,
+            errors: {},
+            message: "Product views updated successfully"
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: "Failed to update product views",
+            error: error
         }
     }
 }

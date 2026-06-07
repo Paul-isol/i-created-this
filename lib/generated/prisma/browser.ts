@@ -43,6 +43,11 @@ export type Verification = Prisma.VerificationModel
  */
 export type Product = Prisma.ProductModel
 /**
+ * Model ProductLike
+ * 
+ */
+export type ProductLike = Prisma.ProductLikeModel
+/**
  * Model Organization
  * 
  */

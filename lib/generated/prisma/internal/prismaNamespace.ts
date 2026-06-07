@@ -389,6 +389,7 @@ export const ModelName = {
   Account: 'Account',
   Verification: 'Verification',
   Product: 'Product',
+  ProductLike: 'ProductLike',
   Organization: 'Organization',
   Member: 'Member',
   Invitation: 'Invitation'
@@ -407,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "product" | "organization" | "member" | "invitation"
+    modelProps: "user" | "session" | "account" | "verification" | "product" | "productLike" | "organization" | "member" | "invitation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -781,6 +782,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ProductLike: {
+      payload: Prisma.$ProductLikePayload<ExtArgs>
+      fields: Prisma.ProductLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProductLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProductLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductLikePayload>
+        }
+        findFirst: {
+          args: Prisma.ProductLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProductLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductLikePayload>
+        }
+        findMany: {
+          args: Prisma.ProductLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductLikePayload>[]
+        }
+        create: {
+          args: Prisma.ProductLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductLikePayload>
+        }
+        createMany: {
+          args: Prisma.ProductLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProductLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductLikePayload>[]
+        }
+        delete: {
+          args: Prisma.ProductLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductLikePayload>
+        }
+        update: {
+          args: Prisma.ProductLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.ProductLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProductLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProductLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.ProductLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProductLikePayload>
+        }
+        aggregate: {
+          args: Prisma.ProductLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProductLike>
+        }
+        groupBy: {
+          args: Prisma.ProductLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProductLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProductLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProductLikeCountAggregateOutputType> | number
+        }
+      }
+    }
     Organization: {
       payload: Prisma.$OrganizationPayload<ExtArgs>
       fields: Prisma.OrganizationFieldRefs
@@ -1122,6 +1197,16 @@ export const ProductScalarFieldEnum = {
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
 
 
+export const ProductLikeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  productId: 'productId',
+  createdAt: 'createdAt'
+} as const
+
+export type ProductLikeScalarFieldEnum = (typeof ProductLikeScalarFieldEnum)[keyof typeof ProductLikeScalarFieldEnum]
+
+
 export const OrganizationScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1397,6 +1482,7 @@ export type GlobalOmitConfig = {
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit
   product?: Prisma.ProductOmit
+  productLike?: Prisma.ProductLikeOmit
   organization?: Prisma.OrganizationOmit
   member?: Prisma.MemberOmit
   invitation?: Prisma.InvitationOmit

@@ -1,12 +1,20 @@
-"use cache"
 import { ArrowRightCircleIcon } from "lucide-react";
 import { ProductCard } from "../products/ProductCard";
-import Link from "next/link";
-import { getFeaturedProducts } from "@/lib/products/products-select";
+import { getFeaturedProducts, getUserLikedProductIds } from "@/lib/products/products-select";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export default async function FeaturedProducts() {
-  const products = await getFeaturedProducts()
-  
+  const products = await getFeaturedProducts();
+
+  // Get current user's liked products (empty set if not logged in)
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  const likedIds = session?.user?.id
+    ? await getUserLikedProductIds(session.user.id)
+    : new Set<number>();
+
   return (
     <div className="relative w-full max-w-5xl mx-auto border border-border bg-card p-3 sm:p-5 shadow-2xl transition-all duration-500 hover:border-primary/30">
       {/* Mock Header Console */}
@@ -30,9 +38,11 @@ export default async function FeaturedProducts() {
       {/* Simulated Project List */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {products.map((product) => (
-          <Link href={`/products/${product.id}`} key={product.id}>
-            <ProductCard product={product} />
-          </Link>
+          <ProductCard
+            product={product}
+            hasLiked={likedIds.has(product.id)}
+            key={product.id}
+          />
         ))}
       </div>
     </div>

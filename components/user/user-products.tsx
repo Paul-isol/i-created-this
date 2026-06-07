@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { getUserProducts } from "@/lib/products/products-select";
+import { getUserProducts, getUserLikedProductIds } from "@/lib/products/products-select";
 import UserProductsList from "./user-products-list";
 
 export default async function UserProducts() {
@@ -18,7 +18,10 @@ export default async function UserProducts() {
     );
   }
 
-  const products = await getUserProducts(user.id);
+  const [products, likedIds] = await Promise.all([
+    getUserProducts(user.id),
+    getUserLikedProductIds(user.id),
+  ]);
 
-  return <UserProductsList products={products} />;
+  return <UserProductsList products={products} likedProductIds={Array.from(likedIds)} />;
 }

@@ -25,6 +25,17 @@ export async function getAllProducts(){
     return productsData
 }
 
+export async function getProductsBySlug(slug: string) {
+    "use cache"
+    const product = await db.product.findUnique({
+        where: {
+            slug: slug
+        }
+    })
+
+    return product
+}
+
 export async function getRecentlyLaunchedProducts() {
     await connection()
     const productsData = await getFeaturedProducts()
@@ -45,4 +56,12 @@ export async function getUserProducts(userId: string) {
         }
     })
     return userProducts
+}
+
+export async function getUserLikedProductIds(userId: string): Promise<Set<number>> {
+    const likes = await db.productLike.findMany({
+        where: { userId },
+        select: { productId: true }
+    })
+    return new Set(likes.map((like) => like.productId))
 }
