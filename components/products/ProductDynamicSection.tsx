@@ -5,7 +5,8 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import ProductDetailView from "./ProductDetailView";
 
-export default async function ProductDynamicSection({ slug }: { slug: string }) {
+export default async function ProductDynamicSection({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const product = await getProductsBySlug(slug);
 
   if (!product) {

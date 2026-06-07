@@ -1,8 +1,10 @@
 import { connection } from "next/server";
+import { cacheTag } from "next/cache";
 import db from "../db";
 
 export async function getFeaturedProducts() {
     "use cache"
+    cacheTag("featured-products")
     const products = await db.product.findMany({
         where: {
             status: "approved"
@@ -27,11 +29,15 @@ export async function getAllProducts(){
 
 export async function getProductsBySlug(slug: string) {
     "use cache"
+    cacheTag(`product-slug-${slug}`)
     const product = await db.product.findUnique({
         where: {
             slug: slug
         }
     })
+    if (product) {
+        cacheTag(`product-id-${product.id}`)
+    }
 
     return product
 }

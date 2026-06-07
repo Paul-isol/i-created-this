@@ -2,7 +2,7 @@
 
 import { auth } from "../auth";
 import { headers } from "next/headers";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { productSchema } from "./product-validation";
 import db from "../db";
 import { z } from "zod";
@@ -114,7 +114,7 @@ export async function likeProductAction(productId: number) {
 
         if (existingLike) {
             // Unlike: delete the like row and decrement the counter
-            await db.$transaction([
+            const [_, updatedProduct] = await db.$transaction([
                 db.productLike.delete({
                     where: { id: existingLike.id }
                 }),
@@ -124,7 +124,12 @@ export async function likeProductAction(productId: number) {
                 })
             ])
 
+            updateTag(`product-id-${productId}`)
+            updateTag(`product-slug-${updatedProduct.slug}`)
+            updateTag("featured-products")
             revalidatePath("/")
+            revalidatePath(`/products/${updatedProduct.slug}`)
+
             return {
                 success: true,
                 liked: false,
@@ -132,7 +137,7 @@ export async function likeProductAction(productId: number) {
             }
         } else {
             // Like: create the like row and increment the counter
-            await db.$transaction([
+            const [_, updatedProduct] = await db.$transaction([
                 db.productLike.create({
                     data: { userId, productId }
                 }),
@@ -142,7 +147,12 @@ export async function likeProductAction(productId: number) {
                 })
             ])
 
+            updateTag(`product-id-${productId}`)
+            updateTag(`product-slug-${updatedProduct.slug}`)
+            updateTag("featured-products")
             revalidatePath("/")
+            revalidatePath(`/products/${updatedProduct.slug}`)
+
             return {
                 success: true,
                 liked: true,

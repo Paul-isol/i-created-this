@@ -5,7 +5,6 @@ import {
   Eye,
   ExternalLink,
   Star,
-  Tag,
   Clock,
   Zap,
 } from "lucide-react";
@@ -64,238 +63,206 @@ export default function ProductDetailView({
           Back to Showcase
         </Link>
 
-        {/* Main Content Card */}
-        <div className="border border-border bg-card shadow-2xl transition-all duration-500">
-          {/* Terminal-style Header Bar */}
-          <div className="flex items-center justify-between border-b border-border px-5 py-3.5">
+        {/* Header Console Card */}
+        <div className="border border-border bg-card p-6 mb-8 relative overflow-hidden transition-all duration-300">
+          {/* Top Console Bar */}
+          <div className="flex items-center justify-between mb-4 border-b border-border/60 pb-3">
             <div className="flex items-center gap-1.5">
               <div className="size-2 bg-destructive/60" />
               <div className="size-2 bg-yellow-500/60" />
               <div className="size-2 bg-green-500/60" />
-              <span className="text-[10px] font-mono text-muted-foreground ml-3 tracking-wider">
-                product_detail/{product.slug}
+              <span className="text-[10px] font-mono text-muted-foreground ml-2 tracking-wider">
+                src/showcase/{product.slug}/page.tsx
               </span>
             </div>
-            <div className="flex items-center gap-3">
+            <div>
               {product.status === "approved" ? (
-                <span className="flex items-center gap-1 text-[9px] font-mono font-bold uppercase tracking-widest text-green-500 bg-green-500/10 px-2 py-0.5 border border-green-500/20">
-                  <Zap className="size-2.5" />
-                  Live
+                <span className="flex items-center gap-1.5 text-[9px] font-mono font-bold uppercase tracking-widest text-green-500 bg-green-500/10 px-2.5 py-0.5 border border-green-500/20">
+                  <Zap className="size-2.5 animate-pulse" />
+                  Status: Live
                 </span>
               ) : (
-                <span className="flex items-center gap-1 text-[9px] font-mono font-bold uppercase tracking-widest text-yellow-500 bg-yellow-500/10 px-2 py-0.5 border border-yellow-500/20">
+                <span className="flex items-center gap-1.5 text-[9px] font-mono font-bold uppercase tracking-widest text-yellow-500 bg-yellow-500/10 px-2.5 py-0.5 border border-yellow-500/20">
                   <Clock className="size-2.5" />
-                  Pending
+                  Status: Pending
                 </span>
               )}
             </div>
           </div>
 
-          {/* Content Body */}
-          <div className="p-6 sm:p-8">
-            {/* Top Section: Title + Meta */}
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
-              <div className="flex-1 min-w-0">
-                {/* Featured Badge */}
-                {product.likes >= 100 && (
-                  <div className="inline-flex items-center gap-1 bg-primary text-primary-foreground px-2.5 py-0.5 text-[8px] font-mono font-bold uppercase tracking-widest border border-primary shadow-sm mb-3">
-                    <Star className="size-2.5 fill-primary-foreground" />
-                    Featured Project
-                  </div>
-                )}
+          {/* Title & Tagline */}
+          <div className="space-y-3">
+            {product.likes >= 100 && (
+              <span className="inline-flex items-center gap-1 bg-primary text-primary-foreground px-2 py-0.5 text-[8px] font-mono font-bold uppercase tracking-widest border border-primary shadow-sm">
+                <Star className="size-2.5 fill-primary-foreground" />
+                Featured Build
+              </span>
+            )}
+            <h1 className="font-heading text-3xl sm:text-5xl font-black tracking-tight uppercase leading-tight text-foreground">
+              {product.name}
+            </h1>
+            {product.tagline && (
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed font-medium">
+                {product.tagline}
+              </p>
+            )}
+          </div>
+        </div>
 
-                <h1 className="font-heading text-3xl sm:text-4xl font-black tracking-tight uppercase leading-tight text-foreground mb-2">
-                  {product.name}
-                </h1>
-
-                {/* Author */}
-                <p className="text-xs font-mono text-muted-foreground/80 mb-4">
-                  submitted by{" "}
-                  <span className="text-primary font-bold">{authorHandle}</span>
-                </p>
-
-                {/* Tagline */}
-                {product.tagline && (
-                  <p className="text-sm sm:text-base text-foreground/90 leading-relaxed font-medium max-w-xl">
-                    {product.tagline}
-                  </p>
-                )}
+        {/* Two-Column Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Left Panel: Primary Content */}
+          <div className="md:col-span-2 space-y-8">
+            {/* README.md Editor Window */}
+            <div className="border border-border bg-card shadow-lg transition-all duration-300 hover:border-border/80">
+              {/* Tab Header */}
+              <div className="flex items-center justify-between border-b border-border bg-muted/30 px-4 py-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono text-foreground font-bold">README.md</span>
+                  <span className="text-[9px] font-mono text-muted-foreground font-medium uppercase tracking-widest bg-muted px-1.5 py-0.5 border border-border">
+                    Markdown
+                  </span>
+                </div>
+                <div className="text-[10px] font-mono text-muted-foreground select-none">
+                  UTF-8
+                </div>
               </div>
+              {/* Description Content */}
+              <div className="p-6 font-mono text-sm leading-relaxed text-foreground/90 whitespace-pre-wrap select-text">
+                {product.description || "No description provided."}
+              </div>
+            </div>
 
-              {/* CTA Section */}
-              <div className="flex flex-col gap-2.5 shrink-0">
+            {/* package.json Dependency Block */}
+            {tagsList.length > 0 && (
+              <div className="border border-border bg-card shadow-lg transition-all duration-300 hover:border-border/80">
+                <div className="flex items-center justify-between border-b border-border bg-muted/30 px-4 py-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono text-foreground font-bold">package.json</span>
+                    <span className="text-[9px] font-mono text-muted-foreground font-medium uppercase tracking-widest bg-muted px-1.5 py-0.5 border border-border">
+                      JSON
+                    </span>
+                  </div>
+                </div>
+                {/* Tech Stack Code View */}
+                <div className="p-6 font-mono text-xs overflow-x-auto">
+                  <pre className="text-foreground">
+                    <span className="text-muted-foreground">{"{"}</span>
+                    <br />
+                    <span className="text-primary/80">  &quot;name&quot;</span>: <span className="text-green-400">&quot;{product.slug}&quot;</span>,
+                    <br />
+                    <span className="text-primary/80">  &quot;dependencies&quot;</span>: <span className="text-muted-foreground">{"{"}</span>
+                    {tagsList.map((tag, idx) => (
+                      <div key={tag} className="pl-6">
+                        <span className="text-green-400">&quot;{tag.toLowerCase()}&quot;</span>: <span className="text-yellow-400">&quot;latest&quot;</span>
+                        {idx < tagsList.length - 1 ? "," : ""}
+                      </div>
+                    ))}
+                    <span className="text-muted-foreground">  {"}"}</span>
+                    <br />
+                    <span className="text-muted-foreground">{"}"}</span>
+                  </pre>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Panel: Controls and Registry info */}
+          <div className="md:col-span-1 space-y-6">
+            {/* Launch Deck Card */}
+            <div className="border border-border bg-card p-6 shadow-lg">
+              <h3 className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest font-bold mb-4 flex items-center gap-2">
+                <div className="size-1.5 bg-primary animate-pulse" />
+                Launch Controls
+              </h3>
+              <div className="space-y-4">
                 {product.websiteUrl && (
                   <a
                     href={product.websiteUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="block w-full"
                   >
-                    <Button className="w-full group/btn gap-2 font-heading transition-all duration-300 active:translate-y-px">
+                    <Button className="w-full group/btn gap-2 font-heading tracking-wider uppercase text-xs h-11 transition-all duration-300 active:translate-y-px">
                       Visit Website
                       <ExternalLink className="size-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                     </Button>
                   </a>
                 )}
-              </div>
-            </div>
 
-            {/* Stats Row */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-px border border-border bg-border mb-8">
-              <div className="bg-card p-4 text-center transition-colors duration-300 hover:bg-muted/30">
-                <div className="flex items-center justify-center gap-1.5 mb-1.5">
-                  <Eye className="size-3.5 text-muted-foreground" />
-                  <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-bold">
-                    Views
-                  </span>
-                </div>
-                <span className="font-heading text-xl font-black text-foreground">
-                  {product.views.toLocaleString()}
-                </span>
-              </div>
-
-              <div className="bg-card p-4 text-center transition-colors duration-300 hover:bg-muted/30">
-                <div className="flex items-center justify-center gap-1.5 mb-1.5">
-                  <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-bold">
-                    Likes
-                  </span>
-                </div>
-                <div className="flex items-center justify-center gap-2">
-                  <span className="font-heading text-xl font-black text-foreground">
-                    {product.likes.toLocaleString()}
-                  </span>
-                  <ProductLikeButton product={product} hasLiked={hasLiked} />
-                </div>
-              </div>
-
-              <div className="bg-card p-4 text-center transition-colors duration-300 hover:bg-muted/30">
-                <div className="flex items-center justify-center gap-1.5 mb-1.5">
-                  <Calendar className="size-3.5 text-muted-foreground" />
-                  <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-bold">
-                    Submitted
-                  </span>
-                </div>
-                <span className="font-mono text-xs font-bold text-foreground">
-                  {createdDate}
-                </span>
-              </div>
-
-              <div className="bg-card p-4 text-center transition-colors duration-300 hover:bg-muted/30">
-                <div className="flex items-center justify-center gap-1.5 mb-1.5">
-                  <Tag className="size-3.5 text-muted-foreground" />
-                  <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest font-bold">
-                    Status
-                  </span>
-                </div>
-                <span
-                  className={`font-mono text-xs font-bold uppercase ${
-                    product.status === "approved"
-                      ? "text-green-500"
-                      : "text-yellow-500"
-                  }`}
-                >
-                  {product.status}
-                </span>
-              </div>
-            </div>
-
-            {/* Tags Section */}
-            {tagsList.length > 0 && (
-              <div className="mb-8">
-                <h2 className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest font-bold mb-3 flex items-center gap-2">
-                  <div className="size-1.5 bg-primary" />
-                  Tech Stack / Tags
-                </h2>
-                <div className="flex flex-wrap gap-2">
-                  {tagsList.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-[10px] font-mono text-muted-foreground bg-muted hover:bg-primary/10 hover:text-primary hover:border-primary/20 transition-all duration-300 px-3 py-1 border border-border uppercase tracking-wider font-semibold cursor-default"
-                    >
-                      {tag}
+                {/* Stats row */}
+                <div className="grid grid-cols-2 border border-border divide-x divide-border bg-muted/10">
+                  {/* Views */}
+                  <div className="p-4 text-center">
+                    <div className="flex items-center justify-center gap-1.5 mb-1.5 text-muted-foreground">
+                      <Eye className="size-3.5" />
+                      <span className="text-[9px] font-mono uppercase tracking-widest font-bold">
+                        Views
+                      </span>
+                    </div>
+                    <span className="font-heading text-xl font-black text-foreground">
+                      {product.views.toLocaleString()}
                     </span>
-                  ))}
+                  </div>
+
+                  {/* Likes */}
+                  <div className="p-4 text-center flex flex-col justify-center items-center">
+                    <div className="flex items-center justify-center gap-1.5 mb-1.5 text-muted-foreground">
+                      <span className="text-[9px] font-mono uppercase tracking-widest font-bold">
+                        Likes
+                      </span>
+                    </div>
+                    <ProductLikeButton product={product} hasLiked={hasLiked} variant="stat" />
+                  </div>
                 </div>
               </div>
-            )}
+            </div>
 
-            {/* Description Section */}
-            {product.description && (
-              <div className="mb-8">
-                <h2 className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest font-bold mb-3 flex items-center gap-2">
-                  <div className="size-1.5 bg-primary" />
-                  About This Project
-                </h2>
-                <div className="border border-border bg-background/50 p-5">
-                  <p className="text-sm text-foreground/85 leading-relaxed whitespace-pre-wrap">
-                    {product.description}
-                  </p>
+            {/* Registry Info Card */}
+            <div className="border border-border bg-card p-6 shadow-lg">
+              <h3 className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest font-bold mb-4 flex items-center gap-2">
+                <div className="size-1.5 bg-primary" />
+                Registry Metadata
+              </h3>
+              <div className="space-y-3 font-mono text-xs">
+                <div className="flex justify-between py-1.5 border-b border-border/40">
+                  <span className="text-muted-foreground">CREATOR</span>
+                  <span className="text-primary font-bold">{authorHandle}</span>
                 </div>
-              </div>
-            )}
-
-            {/* Website URL Section */}
-            {product.websiteUrl && (
-              <div className="mb-8">
-                <h2 className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest font-bold mb-3 flex items-center gap-2">
-                  <div className="size-1.5 bg-primary" />
-                  Project URL
-                </h2>
-                <a
-                  href={product.websiteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-mono text-primary hover:underline transition-colors duration-300 border border-border bg-background/50 px-4 py-2.5 hover:border-primary/30 group"
-                >
-                  <ExternalLink className="size-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  {product.websiteUrl}
-                </a>
-              </div>
-            )}
-
-            {/* Metadata Footer */}
-            {approvedDate && (
-              <div className="border-t border-border pt-5 mt-8">
-                <div className="flex flex-wrap gap-6 text-[10px] font-mono text-muted-foreground">
-                  <span className="flex items-center gap-1.5">
-                    <Calendar className="size-3" />
-                    Approved: {approvedDate}
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <Calendar className="size-3" />
-                    Submitted: {createdDate}
+                <div className="flex justify-between py-1.5 border-b border-border/40">
+                  <span className="text-muted-foreground">SUBMITTED</span>
+                  <span className="text-foreground font-semibold">{createdDate}</span>
+                </div>
+                {approvedDate && (
+                  <div className="flex justify-between py-1.5 border-b border-border/40">
+                    <span className="text-muted-foreground">APPROVED</span>
+                    <span className="text-foreground font-semibold">{approvedDate}</span>
+                  </div>
+                )}
+                <div className="flex justify-between py-1.5 border-b border-border/40">
+                  <span className="text-muted-foreground">STATUS</span>
+                  <span className={`font-semibold uppercase ${product.status === "approved" ? "text-green-500" : "text-yellow-500"}`}>
+                    {product.status}
                   </span>
                 </div>
+                <div className="flex justify-between py-1.5">
+                  <span className="text-muted-foreground">BUILD_ID</span>
+                  <span className="text-foreground font-semibold">#{product.id}</span>
+                </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
 
         {/* Bottom Navigation */}
-        <div className="flex justify-between items-center mt-8">
+        <div className="flex justify-between items-center mt-12 border-t border-border pt-6">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase tracking-widest group hover:text-primary transition-colors duration-300"
           >
             <ArrowLeft className="size-3 transition-transform duration-300 group-hover:-translate-x-1" />
-            Explore More
+            Explore More Builds
           </Link>
-
-          {product.websiteUrl && (
-            <a
-              href={product.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button
-                variant="outline"
-                size="sm"
-                className="gap-2 font-mono text-[10px] font-bold uppercase tracking-wider transition-all duration-300 hover:border-primary hover:text-primary"
-              >
-                Visit Live Site
-                <ExternalLink className="size-3" />
-              </Button>
-            </a>
-          )}
         </div>
       </div>
     </div>

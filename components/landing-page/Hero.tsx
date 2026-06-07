@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import FeaturedProducts from "./FeaturedProducts";
 import { Suspense } from "react";
 import Link from "next/link";
+import ProductSkeleton from "../products/ProductSkeleton";
 
 export default function Hero() {
   return (
@@ -64,7 +65,7 @@ export default function Hero() {
         </div>
 
         {/* Interactive Dashboard Mockup */}
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<ProductSkeleton />}>
           <FeaturedProducts />
         </Suspense>
       </div>
