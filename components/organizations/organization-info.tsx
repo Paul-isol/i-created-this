@@ -20,6 +20,15 @@ import {
 } from "@/lib/organizations/org-actions";
 import Link from "next/link";
 
+interface DiscoverableOrg {
+  id: string;
+  name: string;
+  slug: string;
+  createdAt: string;
+  memberCount: number;
+  isMember: boolean;
+}
+
 export default function OrganizationInfo() {
   const { data: session, isPending: isSessionPending } = authClient.useSession();
   const { data: activeOrg, isPending: isOrgPending } = authClient.useActiveOrganization();
@@ -28,7 +37,7 @@ export default function OrganizationInfo() {
   const [orgName, setOrgName] = useState("");
   const [createLoading, setCreateLoading] = useState(false);
   
-  const [allOrgs, setAllOrgs] = useState<any[]>([]);
+  const [allOrgs, setAllOrgs] = useState<DiscoverableOrg[]>([]);
   const [loadingDirectory, setLoadingDirectory] = useState(false);
 
   // Fetch all organizations in the system (for the discover directory)
